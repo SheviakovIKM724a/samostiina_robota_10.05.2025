@@ -10,7 +10,7 @@ private:
     bool isValid() const {
         return (a + b > c) && (a + c > b) && (b + c > a);
     }
-
+     
 public:
     // Конструктор
     Triangle(double side1, double side2, double side3) {

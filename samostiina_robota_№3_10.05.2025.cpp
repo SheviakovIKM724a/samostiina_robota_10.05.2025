@@ -1,69 +1,63 @@
 ﻿#include <iostream>
-#include <string>
+#include <cmath>
+
 using namespace std;
 
-class Student {
+class Triangle {
 private:
-    string name;
-    int age;
-    double averageGrade;
+    double a, b, c;
+
+    bool isValid() const {
+        return (a + b > c) && (a + c > b) && (b + c > a);
+    }
 
 public:
-    // Сеттер для імені
-    void setName(string n) {
-        name = n;
+    // Конструктор
+    Triangle(double side1, double side2, double side3) {
+        a = side1;
+        b = side2;
+        c = side3;
+
+        if (!isValid()) {
+            cerr << "Невірні сторони трикутника!" << endl;
+            a = b = c = 0;
+        }
     }
 
-    // Геттер для імені
-    string getName() {
-        return name;
+    // Метод обчислення периметра
+    double getPerimeter() const {
+        return a + b + c;
     }
 
-    // Сеттер для віку
-    void setAge(int a) {
-        if (a >= 0)
-            age = a;
-        else
-            cout << "Некоректний вік!" << endl;
+    // Метод обчислення площі за формулою Герона
+    double getArea() const {
+        double s = getPerimeter() / 2.0;
+        return sqrt(s * (s - a) * (s - b) * (s - c));
     }
 
-    // Геттер для віку
-    int getAge() {
-        return age;
+    // Метод перевірки, чи є трикутник прямокутним
+    bool isRightAngled() const {
+        double aa = a * a, bb = b * b, cc = c * c;
+        return fabs(aa + bb - cc) < 1e-6 ||
+            fabs(aa + cc - bb) < 1e-6 ||
+            fabs(bb + cc - aa) < 1e-6;
     }
 
-    // Сеттер для середнього балу
-    void setAverageGrade(double grade) {
-        if (grade >= 0.0 && grade <= 12.0)
-            averageGrade = grade;
-        else
-            cout << "Некоректний бал!" << endl;
-    }
-
-    // Геттер для середнього балу
-    double getAverageGrade() {
-        return averageGrade;
-    }
-
-    // Метод для виводу інформації про студента
-    void displayInfo() {
-        cout << "Ім'я: " << name << endl;
-        cout << "Вік: " << age << endl;
-        cout << "Середній бал: " << averageGrade << endl;
-    }
+    // Геттери
+    double getA() const { return a; }
+    double getB() const { return b; }
+    double getC() const { return c; }
 };
 
 int main() {
 
     system("chcp 1251 > nul"); //підключення української мови
 
-    Student s1;
+    Triangle t(3, 4, 5);
 
-    s1.setName("Олександр");
-    s1.setAge(20);
-    s1.setAverageGrade(10.5);
-
-    s1.displayInfo();
+    cout << "Периметр: " << t.getPerimeter() << endl;
+    cout << "Площа: " << t.getArea() << endl;
+    cout << "Прямокутний: " << (t.isRightAngled() ? "Так" : "Ні") << endl;
 
     return 0;
 }
